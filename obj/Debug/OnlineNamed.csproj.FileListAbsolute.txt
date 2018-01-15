@@ -1,0 +1,17 @@
+C:\Users\dylan\Desktop\公司\GitHub_Test\OnlineNamed\bin\Debug\OnlineNamed.dll
+C:\Users\dylan\Desktop\公司\GitHub_Test\OnlineNamed\bin\Debug\OnlineNamed.pdb
+C:\Users\dylan\Desktop\公司\GitHub_Test\OnlineNamed\obj\Debug\OnlineNamed.csprojResolveAssemblyReference.cache
+C:\Users\dylan\Desktop\公司\GitHub_Test\OnlineNamed\obj\Debug\OnlineNamed.ConfigFrom.resources
+C:\Users\dylan\Desktop\公司\GitHub_Test\OnlineNamed\obj\Debug\OnlineNamed.csproj.GenerateResource.Cache
+C:\Users\dylan\Desktop\公司\GitHub_Test\OnlineNamed\obj\Debug\OnlineNamed.dll
+C:\Users\dylan\Desktop\公司\GitHub_Test\OnlineNamed\obj\Debug\OnlineNamed.pdb
+D:\Users\小金\Documents\github_ischool\OnlineNamed\bin\Debug\OnlineNamed.dll
+D:\Users\小金\Documents\github_ischool\OnlineNamed\bin\Debug\OnlineNamed.pdb
+D:\Users\小金\Documents\github_ischool\OnlineNamed\bin\Debug\DevComponents.DotNetBar2.dll
+D:\Users\小金\Documents\github_ischool\OnlineNamed\obj\Debug\OnlineNamed.csprojResolveAssemblyReference.cache
+D:\Users\小金\Documents\github_ischool\OnlineNamed\obj\Debug\OnlineNamed.ConfigFrom.resources
+D:\Users\小金\Documents\github_ischool\OnlineNamed\obj\Debug\OnlineNamed.csproj.GenerateResource.Cache
+D:\Users\小金\Documents\github_ischool\OnlineNamed\obj\Debug\OnlineNamed.csproj.CoreCompileInputs.cache
+D:\Users\小金\Documents\github_ischool\OnlineNamed\obj\Debug\OnlineNamed.dll
+D:\Users\小金\Documents\github_ischool\OnlineNamed\obj\Debug\OnlineNamed.pdb
+D:\Users\小金\Documents\github_ischool\OnlineNamed\obj\Debug\OnlineNamed.OnlineRollCall.resources

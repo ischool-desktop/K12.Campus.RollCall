@@ -1,0 +1,9 @@
+D:\Users\小金\Documents\github_ischool\OnlineNamed\bin\Debug\DevComponents.DotNetBar2.dll
+D:\Users\小金\Documents\github_ischool\OnlineNamed\obj\Debug\K12.Campus.RollCall.csproj.GenerateResource.Cache
+D:\Users\小金\Documents\github_ischool\OnlineNamed\obj\Debug\K12.Campus.RollCall.csproj.CoreCompileInputs.cache
+D:\Users\小金\Documents\github_ischool\OnlineNamed\bin\Debug\K12.Campus.RollCall.dll
+D:\Users\小金\Documents\github_ischool\OnlineNamed\bin\Debug\K12.Campus.RollCall.pdb
+D:\Users\小金\Documents\github_ischool\OnlineNamed\obj\Debug\K12.Campus.RollCall.dll
+D:\Users\小金\Documents\github_ischool\OnlineNamed\obj\Debug\K12.Campus.RollCall.pdb
+D:\Users\小金\Documents\github_ischool\OnlineNamed\obj\Debug\K12.Campus.RollCall.ConfigFrom.resources
+D:\Users\小金\Documents\github_ischool\OnlineNamed\obj\Debug\K12.Campus.RollCall.OnlineRollCall.resources
