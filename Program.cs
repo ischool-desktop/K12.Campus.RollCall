@@ -27,9 +27,9 @@ namespace K12.Campus.RollCall
 
             #region 線上點名設定
             {
-                RoleAclSource.Instance["學務作業"]["功能按鈕"].Add(new RibbonFeature("9BFBE652-0E3C-4447-8DC5-AAB654872565", "線上點名設定"));
-                FISCA.Presentation.MotherForm.RibbonBarItems["學務作業", "基本設定"]["設定"]["線上點名設定"].Enable = FISCA.Permission.UserAcl.Current["9BFBE652-0E3C-4447-8DC5-AAB654872565"].Executable;
-                FISCA.Presentation.MotherForm.RibbonBarItems["學務作業", "基本設定"]["設定"]["線上點名設定"].Click += delegate
+                RoleAclSource.Instance["學務作業"]["功能按鈕"].Add(new RibbonFeature("9BFBE652-0E3C-4447-8DC5-AAB654872565", "課堂點名設定"));
+                FISCA.Presentation.MotherForm.RibbonBarItems["學務作業", "基本設定"]["設定"]["課堂點名設定"].Enable = FISCA.Permission.UserAcl.Current["9BFBE652-0E3C-4447-8DC5-AAB654872565"].Executable;
+                FISCA.Presentation.MotherForm.RibbonBarItems["學務作業", "基本設定"]["設定"]["課堂點名設定"].Click += delegate
                 {
                     OnlineRollCall rollCall = new OnlineRollCall();
                     rollCall.ShowDialog();
