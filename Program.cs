@@ -39,11 +39,11 @@ namespace K12.Campus.RollCall
             
             #region 課堂點名檢視/管理
             {
-                RoleAclSource.Instance["學務作業"]["功能按鈕"].Add(new RibbonFeature("4BF97B3D-827A-4373-B8B0-A3A3719E6A7A", "課堂點名檢視/管理"));
-                MotherForm.RibbonBarItems["學務作業", "批次作業/查詢"]["課堂點名檢視/管理"].Enable = UserAcl.Current["4BF97B3D-827A-4373-B8B0-A3A3719E6A7A"].Executable;
-                MotherForm.RibbonBarItems["學務作業", "批次作業/查詢"]["課堂點名檢視/管理"].Image = Properties.Resources.admissions_ok_64;
-                MotherForm.RibbonBarItems["學務作業", "批次作業/查詢"]["課堂點名檢視/管理"].Size = RibbonBarButton.MenuButtonSize.Medium;
-                MotherForm.RibbonBarItems["學務作業", "批次作業/查詢"]["課堂點名檢視/管理"].Click += delegate
+                RoleAclSource.Instance["學務作業"]["功能按鈕"].Add(new RibbonFeature("4BF97B3D-827A-4373-B8B0-A3A3719E6A7A", "課堂點名總覽"));
+                MotherForm.RibbonBarItems["學務作業", "批次作業/查詢"]["課堂點名總覽"].Enable = UserAcl.Current["4BF97B3D-827A-4373-B8B0-A3A3719E6A7A"].Executable;
+                MotherForm.RibbonBarItems["學務作業", "批次作業/查詢"]["課堂點名總覽"].Image = Properties.Resources.admissions_ok_64;
+                MotherForm.RibbonBarItems["學務作業", "批次作業/查詢"]["課堂點名總覽"].Size = RibbonBarButton.MenuButtonSize.Medium;
+                MotherForm.RibbonBarItems["學務作業", "批次作業/查詢"]["課堂點名總覽"].Click += delegate
                 {
                     (new RollCallManager()).ShowDialog();
                 };

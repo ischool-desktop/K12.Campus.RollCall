@@ -44,6 +44,7 @@
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.rollCallLog = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.attendance = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.點名時間 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewX1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,6 +54,9 @@
             this.dataGridViewX1.AllowUserToDeleteRows = false;
             this.dataGridViewX1.AllowUserToResizeColumns = false;
             this.dataGridViewX1.AllowUserToResizeRows = false;
+            this.dataGridViewX1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridViewX1.BackgroundColor = System.Drawing.Color.White;
             this.dataGridViewX1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewX1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -63,7 +67,8 @@
             this.stuNumber,
             this.name,
             this.rollCallLog,
-            this.attendance});
+            this.attendance,
+            this.點名時間});
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
@@ -79,7 +84,8 @@
             this.dataGridViewX1.Name = "dataGridViewX1";
             this.dataGridViewX1.RowHeadersVisible = false;
             this.dataGridViewX1.RowTemplate.Height = 24;
-            this.dataGridViewX1.Size = new System.Drawing.Size(744, 436);
+            this.dataGridViewX1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewX1.Size = new System.Drawing.Size(821, 456);
             this.dataGridViewX1.TabIndex = 0;
             // 
             // labelX1
@@ -170,62 +176,79 @@
             // 
             this.teacher.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.teacher.HeaderText = "教師";
+            this.teacher.MinimumWidth = 85;
             this.teacher.Name = "teacher";
-            this.teacher.Width = 59;
+            this.teacher.Width = 85;
             // 
             // course
             // 
             this.course.HeaderText = "課程";
+            this.course.MinimumWidth = 85;
             this.course.Name = "course";
+            this.course.Visible = false;
             this.course.Width = 120;
             // 
             // className
             // 
             this.className.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.className.HeaderText = "班級";
+            this.className.MinimumWidth = 85;
             this.className.Name = "className";
-            this.className.Width = 59;
+            this.className.Width = 85;
             // 
             // seatNo
             // 
             this.seatNo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.seatNo.HeaderText = "座號";
+            this.seatNo.MinimumWidth = 85;
             this.seatNo.Name = "seatNo";
-            this.seatNo.Width = 59;
+            this.seatNo.Width = 85;
             // 
             // stuNumber
             // 
             this.stuNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.stuNumber.HeaderText = "學號";
+            this.stuNumber.MinimumWidth = 85;
             this.stuNumber.Name = "stuNumber";
-            this.stuNumber.Width = 59;
+            this.stuNumber.Width = 85;
             // 
             // name
             // 
             this.name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
             this.name.HeaderText = "姓名";
+            this.name.MinimumWidth = 85;
             this.name.Name = "name";
-            this.name.Width = 59;
+            this.name.Width = 85;
             // 
             // rollCallLog
             // 
             this.rollCallLog.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.rollCallLog.HeaderText = "點名紀錄";
+            this.rollCallLog.HeaderText = "老師點名紀錄";
+            this.rollCallLog.MinimumWidth = 85;
             this.rollCallLog.Name = "rollCallLog";
-            this.rollCallLog.Width = 85;
+            this.rollCallLog.Width = 111;
             // 
             // attendance
             // 
             this.attendance.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.attendance.HeaderText = "系統紀錄";
+            this.attendance.HeaderText = "目前缺曠紀錄";
+            this.attendance.MinimumWidth = 85;
             this.attendance.Name = "attendance";
-            this.attendance.Width = 85;
+            this.attendance.Width = 111;
+            // 
+            // 點名時間
+            // 
+            this.點名時間.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.點名時間.HeaderText = "點名時間";
+            this.點名時間.MinimumWidth = 120;
+            this.點名時間.Name = "點名時間";
+            this.點名時間.Width = 120;
             // 
             // ClassRollCall
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(768, 509);
+            this.ClientSize = new System.Drawing.Size(845, 509);
             this.Controls.Add(this.classLb);
             this.Controls.Add(this.periodLb);
             this.Controls.Add(this.dateTimeLb);
@@ -234,8 +257,9 @@
             this.Controls.Add(this.labelX1);
             this.Controls.Add(this.dataGridViewX1);
             this.DoubleBuffered = true;
+            this.MaximizeBox = true;
             this.Name = "ClassRollCall";
-            this.Text = "課堂點名清單";
+            this.Text = "班級課堂點名明細";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewX1)).EndInit();
             this.ResumeLayout(false);
 
@@ -258,5 +282,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn name;
         private System.Windows.Forms.DataGridViewTextBoxColumn rollCallLog;
         private System.Windows.Forms.DataGridViewTextBoxColumn attendance;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 點名時間;
     }
 }

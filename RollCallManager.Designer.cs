@@ -277,6 +277,7 @@
             this.Controls.Add(this.dataGridViewX1);
             this.Controls.Add(this.labelX3);
             this.DoubleBuffered = true;
+            this.MaximizeBox = true;
             this.Name = "RollCallManager";
             this.Text = "課堂點名總覽";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewX1)).EndInit();

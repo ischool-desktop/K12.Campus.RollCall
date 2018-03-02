@@ -39,6 +39,7 @@ SELECT
 	, detail.absence
 	, teacher.teacher_name
 	, attendance.detail
+    , detail.last_update as log_time
 FROM 
 	student
     LEFT OUTER JOIN (
@@ -48,6 +49,7 @@ FROM
             , log.ref_teacher_id
             , detail.ref_student_id
             , detail.absence
+            , log.last_update
         FROM
             $campus.rollcall.log.batch AS log 
             LEFT OUTER JOIN $campus.rollcall.log.detail AS detail 
@@ -103,10 +105,15 @@ ORDER BY seat_no
                     {
                         if (pNode.Value == period)
                         {
-                            datarow.Cells[index++].Value = pNode.Attribute("AbsenceType").Value;
+                            datarow.Cells[index].Value = pNode.Attribute("AbsenceType").Value;
                         }
                     }
                 }
+                index++;
+
+                DateTime parseTime;
+                datarow.Cells[index++].Value = DateTime.TryParse("" + dr["log_time"], out parseTime) ? parseTime.ToString("yyyy/MM/dd HH:mm:ss"):"";
+
                 datarow.Tag = "" + dr["ref_student_id"]; // 記錄學生ID
 
                 dataGridViewX1.Rows.Add(datarow);
