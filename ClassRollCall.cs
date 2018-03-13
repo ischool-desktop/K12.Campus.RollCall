@@ -10,11 +10,18 @@ using FISCA.Presentation.Controls;
 using FISCA.Data;
 using K12.Data;
 using System.Xml.Linq;
+using FISCA.Presentation;
+using System.IO;
+using Aspose.Cells;
+using System.Diagnostics;
 
 namespace K12.Campus.RollCall
 {
     public partial class ClassRollCall : BaseForm
     {
+
+        private ContextMenu menu = new ContextMenu();
+
         public ClassRollCall(string classID,string period,DateTime date)
         {
             InitializeComponent();
@@ -29,6 +36,49 @@ namespace K12.Campus.RollCall
             #endregion
 
             // Init DataGridView
+            #region 待處理
+            MenuItem item = new MenuItem("加入待處理");
+            item.Click += delegate
+            {
+                List<string> list = new List<string>();
+                foreach (DataGridViewRow row in dataGridViewX1.SelectedRows)
+                {
+                    list.Add("" + row.Tag);
+                    //row.DefaultCellStyle.Font = new System.Drawing.Font("微軟正黑體", (float)9.75, FontStyle.Italic);
+                    //row.DefaultCellStyle.ForeColor = Color.Red;
+                }
+                K12.Presentation.NLDPanels.Student.AddToTemp(list);
+
+                MessageBox.Show(string.Format("新增{0}名學生於待處理", dataGridViewX1.SelectedRows.Count));
+
+                if (K12.Presentation.NLDPanels.Student.TempSource.Count > 0)
+                {
+                    detailLb.Visible = true;
+                    detailLb.Text = string.Format("待處理學生共{0}名學生", K12.Presentation.NLDPanels.Student.TempSource.Count);
+
+                    clearBtn.Visible = true;
+                }
+            };
+            menu.MenuItems.Add(item);
+            MenuItem item2 = new MenuItem("清空待處理");
+            item2.Click += delegate
+            {
+                K12.Presentation.NLDPanels.Student.RemoveFromTemp(K12.Presentation.NLDPanels.Student.TempSource);
+
+                MessageBox.Show("已清除待處理所有學生");
+
+                detailLb.Visible = false;
+                clearBtn.Visible = false;
+                //foreach (DataGridViewRow row in dataGridViewX1.Rows)
+                //{
+                //    row.DefaultCellStyle.Font = new System.Drawing.Font("微軟正黑體", (float)9.75, FontStyle.Regular);
+                //    row.DefaultCellStyle.ForeColor = Color.Black;
+                //}
+            };
+            menu.MenuItems.Add(item2);
+            #endregion
+
+            #region
             string sql = string.Format(@"
 
 SELECT 
@@ -80,7 +130,8 @@ FROM
 WHERE
 	student.ref_class_id = {0} 
 ORDER BY seat_no
-", classID,date.ToString("yyyy/MM/dd"),period);
+", classID, date.ToString("yyyy/MM/dd"), period);
+            #endregion
 
             QueryHelper qh = new QueryHelper();
             DataTable dt = qh.Select(sql);
@@ -118,6 +169,122 @@ ORDER BY seat_no
 
                 dataGridViewX1.Rows.Add(datarow);
             }
+        }
+
+        private void dataGridViewX1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                menu.Show(dataGridViewX1,new Point(e.X,e.Y));
+            }
+        }
+
+        private void exportBtn_Click(object sender, EventArgs e)
+        {
+            // 建立範本
+            Workbook template = new Workbook(new MemoryStream(Properties.Resources.班級課堂點名明細樣板));
+            // 複製範本
+            Workbook book = new Workbook();
+            book.Copy(template);
+            Worksheet sheet = book.Worksheets[0];
+
+            sheet.Name = classLb.Text;
+
+            // 填入資料
+            int row = 1;
+            Style style = sheet.Cells.GetCellStyle(0, 0);
+            foreach (DataGridViewRow datarow in dataGridViewX1.Rows)
+            {
+                int col = 0;
+                sheet.Cells[row, col].PutValue(datarow.Cells["teacher"].Value);
+                sheet.Cells[row, col++].SetStyle(style);
+                //sheet.Cells[row, col].PutValue(datarow.Cells["course"].Value);
+                //sheet.Cells[row, col++].SetStyle(style);
+                sheet.Cells[row, col].PutValue(datarow.Cells["className"].Value);
+                sheet.Cells[row, col++].SetStyle(style);
+                sheet.Cells[row, col].PutValue(datarow.Cells["seatNo"].Value);
+                sheet.Cells[row, col++].SetStyle(style);
+                sheet.Cells[row, col].PutValue(datarow.Cells["stuNumber"].Value);
+                sheet.Cells[row, col++].SetStyle(style);
+                sheet.Cells[row, col].PutValue(datarow.Cells["name"].Value);
+                sheet.Cells[row, col++].SetStyle(style);
+                sheet.Cells[row, col].PutValue(datarow.Cells["rollCallLog"].Value);
+                sheet.Cells[row, col++].SetStyle(style);
+                sheet.Cells[row, col].PutValue(datarow.Cells["attendance"].Value);
+                sheet.Cells[row, col++].SetStyle(style);
+                sheet.Cells[row, col].PutValue(datarow.Cells["rollCallTime"].Value);
+                sheet.Cells[row, col++].SetStyle(style);
+
+                row++;
+            }
+
+            string date = DateTime.Parse(dateTimeLb.Text).ToString("yyyy_MM_dd");
+            char[] ca = periodLb.Text.ToCharArray();
+            string period = "";
+            int i = 0;
+            foreach (char c in ca)
+            {
+                if (c == '/')
+                {
+                    ca[i] = '_';
+                }
+                period += ca[i];
+                i++;
+            }
+
+            // 存檔
+            SaveFileDialog SaveFileDialog = new SaveFileDialog();
+            SaveFileDialog.Filter = "Excel (*.xlsx)|*.xlsx|所有檔案 (*.*)|*.*";
+            SaveFileDialog.FileName = string.Format("{0}_{1}_{2}_課堂點名", date, classLb.Text, period);
+            try
+            {
+                if (SaveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    book.Save(SaveFileDialog.FileName);
+                    Process.Start(SaveFileDialog.FileName);
+                    MotherForm.SetStatusBarMessage("課堂點名明細,列印完成!!");
+                }
+                else
+                {
+                    FISCA.Presentation.Controls.MsgBox.Show("檔案未儲存");
+                    return;
+                }
+            }
+            catch
+            {
+                FISCA.Presentation.Controls.MsgBox.Show("檔案儲存錯誤,請檢查檔案是否開啟中!!");
+                MotherForm.SetStatusBarMessage("檔案儲存錯誤,請檢查檔案是否開啟中!!");
+            }
+
+        }
+
+        private void addBtn_Click(object sender, EventArgs e)
+        {
+            List<string> list = new List<string>();
+            foreach (DataGridViewRow row in dataGridViewX1.SelectedRows)
+            {
+                list.Add("" + row.Tag);
+            }
+            K12.Presentation.NLDPanels.Student.AddToTemp(list);
+
+            MessageBox.Show(string.Format("新增{0}名學生於待處理", dataGridViewX1.SelectedRows.Count));
+
+            if (K12.Presentation.NLDPanels.Student.TempSource.Count > 0)
+            {
+                detailLb.Visible = true;
+                detailLb.Text = string.Format("待處理學生共{0}名學生", K12.Presentation.NLDPanels.Student.TempSource.Count);
+
+                clearBtn.Visible = true;
+            }
+        }
+
+        private void clearBtn_Click(object sender, EventArgs e)
+        {
+            K12.Presentation.NLDPanels.Student.RemoveFromTemp(K12.Presentation.NLDPanels.Student.TempSource);
+            MessageBox.Show("已清除待處理所有學生");
+
+            detailLb.Visible = false;
+            clearBtn.Visible = false;
         }
     }
 }

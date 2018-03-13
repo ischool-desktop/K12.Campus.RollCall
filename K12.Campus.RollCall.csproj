@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Aspose.Cells_201402">
+      <HintPath>Library\Aspose.Cells_201402.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="DevComponents.DotNetBar2, Version=9.5.0.1, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Library\DevComponents.DotNetBar2.dll</HintPath>
@@ -67,6 +71,10 @@
     <Reference Include="K12.Data, Version=2.0.0.2, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Library\K12.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="K12.Presentation">
+      <HintPath>Library\K12.Presentation.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -116,6 +124,7 @@
     <Compile Include="UDT\RollCallLog.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Library\Aspose.Cells_201402.dll" />
     <Content Include="Library\DevComponents.DotNetBar2.dll" />
     <Content Include="Library\FISCA.Data.dll" />
     <Content Include="Library\FISCA.Data.pdb" />
@@ -158,6 +167,9 @@
     <EmbeddedResource Include="RollCallManager.resx">
       <DependentUpon>RollCallManager.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resource\班級課堂點名明細樣板.xlsx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

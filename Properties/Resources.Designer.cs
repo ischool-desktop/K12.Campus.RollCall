@@ -89,5 +89,15 @@ namespace K12.Campus.RollCall.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   查詢類型 System.Byte[] 的當地語系化資源。
+        /// </summary>
+        internal static byte[] 班級課堂點名明細樣板 {
+            get {
+                object obj = ResourceManager.GetObject("班級課堂點名明細樣板", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }
