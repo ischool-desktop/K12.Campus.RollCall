@@ -129,7 +129,8 @@ FROM
 	) attendance ON attendance.ref_student_id = student.id
 WHERE
 	student.ref_class_id = {0} 
-ORDER BY seat_no
+    AND student.status IN(1,2)
+ORDER BY seat_no, batch_id
 ", classID, date.ToString("yyyy/MM/dd"), period);
             #endregion
 
