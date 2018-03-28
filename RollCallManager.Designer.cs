@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.labelX3 = new DevComponents.DotNetBar.LabelX();
             this.dataGridViewX1 = new DevComponents.DotNetBar.Controls.DataGridViewX();
             this.className = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -41,8 +42,12 @@
             this.labelX2 = new DevComponents.DotNetBar.LabelX();
             this.periodCbx = new DevComponents.DotNetBar.Controls.ComboBoxEx();
             this.dateTimeInput1 = new DevComponents.Editors.DateTimeAdv.DateTimeInput();
+            this.dataGridViewX2 = new DevComponents.DotNetBar.Controls.DataGridViewX();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewX1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateTimeInput1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewX2)).BeginInit();
             this.SuspendLayout();
             // 
             // labelX3
@@ -207,6 +212,7 @@
             this.periodCbx.Size = new System.Drawing.Size(101, 25);
             this.periodCbx.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.periodCbx.TabIndex = 13;
+            this.periodCbx.SelectedIndexChanged += new System.EventHandler(this.periodCbx_SelectedIndexChanged);
             this.periodCbx.TextChanged += new System.EventHandler(this.periodCbx_TextChanged);
             // 
             // dateTimeInput1
@@ -262,11 +268,56 @@
             this.dateTimeInput1.TabIndex = 14;
             this.dateTimeInput1.TextChanged += new System.EventHandler(this.dateTimeInput1_TextChanged);
             // 
+            // dataGridViewX2
+            // 
+            this.dataGridViewX2.AllowUserToAddRows = false;
+            this.dataGridViewX2.AllowUserToDeleteRows = false;
+            this.dataGridViewX2.AllowUserToResizeColumns = false;
+            this.dataGridViewX2.AllowUserToResizeRows = false;
+            this.dataGridViewX2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewX2.BackgroundColor = System.Drawing.Color.White;
+            this.dataGridViewX2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewX2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewX2.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dataGridViewX2.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
+            this.dataGridViewX2.Location = new System.Drawing.Point(12, 41);
+            this.dataGridViewX2.Name = "dataGridViewX2";
+            this.dataGridViewX2.RowHeadersVisible = false;
+            this.dataGridViewX2.RowTemplate.Height = 24;
+            this.dataGridViewX2.Size = new System.Drawing.Size(681, 368);
+            this.dataGridViewX2.TabIndex = 15;
+            // 
+            // Column1
+            // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Column1.HeaderText = "班級";
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 59;
+            // 
+            // Column2
+            // 
+            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Column2.HeaderText = "人數";
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 59;
+            // 
             // RollCallManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(705, 450);
+            this.Controls.Add(this.dataGridViewX2);
             this.Controls.Add(this.dateTimeInput1);
             this.Controls.Add(this.periodCbx);
             this.Controls.Add(this.labelX2);
@@ -282,6 +333,7 @@
             this.Text = "課堂點名總覽";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewX1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateTimeInput1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewX2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -299,5 +351,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn stuCount;
         private System.Windows.Forms.DataGridViewTextBoxColumn rollCallCount;
         private DevComponents.Editors.DateTimeAdv.DateTimeInput dateTimeInput1;
+        private DevComponents.DotNetBar.Controls.DataGridViewX dataGridViewX2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
     }
 }

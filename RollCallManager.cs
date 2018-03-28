@@ -21,6 +21,7 @@ namespace K12.Campus.RollCall
 
         private Dictionary<string, Dictionary<string, int>> _ClassCount = new Dictionary<string, Dictionary<string, int>>();
         private Dictionary<string, List<DataRow>> _ClassDetial = new Dictionary<string, List<DataRow>>();
+        private List<string> _PeriodList = new List<string>();
 
         public RollCallManager()
         {
@@ -41,7 +42,23 @@ namespace K12.Campus.RollCall
             foreach (XElement period in periodList)
             {
                 periodCbx.Items.Add(period.Attribute("Name").Value);
+                _PeriodList.Add(period.Attribute("Name").Value);
             }
+            periodCbx.Items.Insert(0, "全部");
+            #endregion
+
+            #region Init DataGridView2 
+
+            foreach (XElement element in periodList)
+            {
+                DataGridViewTextBoxColumn dgvCol = new DataGridViewTextBoxColumn();
+                dgvCol.Name = element.Attribute("Name").Value;
+                dgvCol.HeaderText = element.Attribute("Name").Value;
+                dgvCol.Width = 66;
+                dgvCol.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                dataGridViewX2.Columns.Add(dgvCol);
+            }
+            
             #endregion
 
             #region 設定選項預設值
@@ -49,6 +66,12 @@ namespace K12.Campus.RollCall
                 periodCbx.SelectedIndex = 0;
             filterCbx.SelectedIndex = 0;
             #endregion
+
+            if (periodCbx.SelectedIndex == 0)
+            {
+                dataGridViewX1.Visible = false;
+                dataGridViewX2.Visible = true;
+            }
 
             #region 整理假別欄位
             // Init datagridview column
@@ -96,11 +119,13 @@ ORDER BY row_number, row_number2
                     dataGridViewX1.Columns.Add(col);
                 }
                 _AllowAbsence["" + dr["name"]].Add("" + dr["period"]);
-            } 
+            }
             #endregion
+
+            ReloadDataGridViewX2();
         }
 
-        public void ReloadDataGridView()
+        public void ReloadDataGridViewX1()
         {
             if (periodCbx.Text == "" || filterCbx.Text == "")
                 return;
@@ -201,6 +226,7 @@ ORDER BY
             }
 
             #endregion
+
             #region 填入資料
             foreach (var classID in _ClassCount.Keys)
             {
@@ -239,7 +265,170 @@ ORDER BY
             } 
             #endregion
 
-            
+        }
+
+        public void ReloadDataGridViewX2()
+        {
+            #region SQL
+            string sql = string.Format(@"
+
+SELECT 
+	class.id AS ref_class_id
+	, class.class_name
+	, student_count.count AS student_count
+--	, student.id AS ref_student_id
+--	, detail.ref_student_id AS rollcall_student
+	, detail.date
+	, detail.period
+	, detail.absence
+	, count(detail.ref_student_id) AS absence_count
+	, detail.ref_log_id
+	, detail.ref_course_id
+	, detail.ref_teacher_id
+	--, student.id AS ref_student_id
+FROM 
+	class
+	LEFT OUTER JOIN (
+		SELECT 
+			student.ref_class_id
+			, count(id)
+		FROM
+			student
+		WHERE
+			status IN (1,2)
+		GROUP BY
+			ref_class_id
+	) student_count ON student_count.ref_class_id = class.id
+	LEFT OUTER JOIN (
+		SELECT 
+			*
+		FROM 
+			student
+		WHERE 
+			status in (1,2)
+	) student ON student.ref_class_id = class.id
+	LEFT OUTER JOIN(
+		SELECT 
+			detail.absence
+			, detail.ref_log_id
+			, detail.ref_student_id
+			, log.date
+			, log.period
+			, log.ref_course_id
+			, log.ref_teacher_id
+		FROM
+			$campus.rollcall.log.detail AS detail
+			LEFT OUTER JOIN $campus.rollcall.log.batch AS log
+				ON log.uid = detail.ref_log_id
+		WHERE log.date = '{0}'::date
+	) detail ON detail.ref_student_id = student.id
+	WHERE student_count IS NOT NULL
+	GROUP BY
+		class.id
+		, class.class_name
+		, student_count.count
+		, detail.ref_log_id
+		, detail.absence
+		, detail.date
+		, detail.period
+		, detail.ref_course_id
+		, detail.ref_teacher_id
+	ORDER BY 
+		class.grade_year
+		, class.id
+		, class.display_order
+		
+            ", dateTimeInput1.Value.ToString("yyyy/MM/dd"));
+            #endregion
+
+            QueryHelper qh = new QueryHelper();
+            DataTable dt = qh.Select(sql);
+
+            Dictionary<string, RollCallTotalView> classDic = new Dictionary<string, RollCallTotalView>();
+
+            #region 整理資料
+            foreach (DataRow row in dt.Rows)
+            {
+                string classID = "" + row["ref_class_id"];
+                string className = "" + row["class_name"];
+                string studentCount = "" + row["student_count"];
+                string period = "" + row["period"];
+                string absence = "" + row["absence"];
+                int absenceCount = ("" + row["absence_count"]) == "" ? 0 : int.Parse("" + row["absence_count"]);
+
+                if (classDic.ContainsKey(classID))
+                {
+                    if (classDic[classID].periodDic.ContainsKey(period))
+                    {
+                        classDic[classID].periodDic[period].Add(absence, absenceCount);
+                    }
+                    if (!classDic[classID].periodDic.ContainsKey(period))
+                    {
+                        classDic[classID].periodDic.Add(period, new Dictionary<string, int>());
+                        classDic[classID].periodDic[period].Add(absence, absenceCount);
+                    }
+                }
+                if (!classDic.ContainsKey(classID))
+                {
+                    classDic.Add(classID, new RollCallTotalView());
+
+                    classDic[classID].classID = classID;
+                    classDic[classID].className = className;
+                    classDic[classID].studentCount = studentCount;
+                    classDic[classID].periodDic = new Dictionary<string, Dictionary<string, int>>();
+                    classDic[classID].absenceDic = new Dictionary<string, int>();
+                    if (classDic[classID].periodDic.ContainsKey(period))
+                    {
+                        classDic[classID].periodDic[period].Add(absence, absenceCount);
+                    }
+                    if (!classDic[classID].periodDic.ContainsKey(period))
+                    {
+                        classDic[classID].periodDic.Add(period, new Dictionary<string, int>());
+                        classDic[classID].periodDic[period].Add(absence, absenceCount);
+                    }
+                }
+            }
+            #endregion
+
+            foreach (string classID in classDic.Keys)
+            {
+                DataGridViewRow dgvRow = new DataGridViewRow();
+                dgvRow.CreateCells(dataGridViewX2);
+  
+                int index = 0;
+                dgvRow.Cells[index++].Value = classDic[classID].className; 
+                dgvRow.Cells[index++].Value = classDic[classID].studentCount;
+
+                foreach (string period in _PeriodList)
+                {
+                    if (classDic[classID].periodDic == null)
+                    {
+                        dgvRow.Cells[index++].Value = "0";
+                        //dgvRow.Cells[index++].Style.ForeColor = Color.Red;
+                    }
+                    if (classDic[classID].periodDic != null)
+                    {
+                        if (!classDic[classID].periodDic.ContainsKey(period))
+                        {
+                            dgvRow.Cells[index++].Value = "0";
+                            //dgvRow.Cells[index++].Style.ForeColor = Color.Red;
+                        }
+                        if (classDic[classID].periodDic.ContainsKey(period))
+                        {
+                            int 缺曠數 = 0;
+                            foreach (string absnece in classDic[classID].periodDic[period].Keys)
+                            {
+                                if (absnece != "")
+                                {
+                                    缺曠數 += classDic[classID].periodDic[period][absnece];
+                                }
+                            }
+                            dgvRow.Cells[index++].Value = classDic[classID].periodDic[period][""] + "(" + 缺曠數 + ")";
+                        }
+                    }
+                }
+                dataGridViewX2.Rows.Add(dgvRow);
+            }
         }
 
         private void dataGridViewX1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -252,17 +441,17 @@ ORDER BY
 
         private void periodCbx_TextChanged(object sender, EventArgs e)
         {
-            ReloadDataGridView();
+            ReloadDataGridViewX1();
         }
 
         private void filterCbx_TextChanged(object sender, EventArgs e)
         {
-            ReloadDataGridView();
+            ReloadDataGridViewX1();
         }
 
         private void dateTimeInput1_TextChanged(object sender, EventArgs e)
         {
-            ReloadDataGridView();
+            ReloadDataGridViewX1();
         }
 
         private void leaveBtn_Click(object sender, EventArgs e)
@@ -270,5 +459,28 @@ ORDER BY
             this.Close();
         }
 
+        private void periodCbx_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (periodCbx.SelectedIndex == 0)
+            {
+                dataGridViewX1.Visible = false;
+                dataGridViewX2.Visible = true;
+            }
+            else
+            {
+                dataGridViewX1.Visible = true;
+                dataGridViewX2.Visible = false;
+            }
+        }
     }
+}
+
+class RollCallTotalView
+{
+    public string classID { get; set; }
+    public string className { get; set; }
+    public string studentCount { get; set; }
+    public Dictionary<string, Dictionary<string, int>> periodDic { get; set; }
+    public Dictionary<string, int> absenceDic { get; set; }
+
 }
