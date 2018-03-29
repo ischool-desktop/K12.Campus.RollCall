@@ -71,6 +71,8 @@ namespace K12.Campus.RollCall
             {
                 dataGridViewX1.Visible = false;
                 dataGridViewX2.Visible = true;
+                filterCbx.Visible = false;
+                labelX4.Visible = false;
             }
 
             #region 整理假別欄位
@@ -441,6 +443,16 @@ FROM
 
         private void periodCbx_TextChanged(object sender, EventArgs e)
         {
+            if (periodCbx.SelectedIndex != 0)
+            {
+                filterCbx.Visible = true;
+                labelX4.Visible = true;
+            }
+            if (periodCbx.SelectedIndex == 0)
+            {
+                filterCbx.Visible = false;
+                labelX4.Visible = false;
+            }
             ReloadDataGridViewX1();
         }
 

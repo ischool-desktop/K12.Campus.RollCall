@@ -19,3 +19,4 @@ D:\Users\小金\Documents\github_ischool\K12.Campus.RollCall\obj\Debug\K12.Campu
 D:\Users\小金\Documents\github_ischool\K12.Campus.RollCall\obj\Debug\K12.Campus.RollCall.csproj.CoreCompileInputs.cache
 D:\Users\小金\Documents\github_ischool\K12.Campus.RollCall\obj\Debug\K12.Campus.RollCall.dll
 D:\Users\小金\Documents\github_ischool\K12.Campus.RollCall\obj\Debug\K12.Campus.RollCall.pdb
+D:\Users\小金\Documents\github_ischool\K12.Campus.RollCall\obj\Debug\K12.Campus.RollCall.csprojResolveAssemblyReference.cache
