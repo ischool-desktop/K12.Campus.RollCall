@@ -44,7 +44,7 @@ namespace K12.Campus.RollCall
                 periodCbx.Items.Add(period.Attribute("Name").Value);
                 _PeriodList.Add(period.Attribute("Name").Value);
             }
-            periodCbx.Items.Insert(0, "全部");
+            periodCbx.Items.Insert(0, "全天");
             #endregion
 
             #region Init DataGridView2 
@@ -360,7 +360,11 @@ FROM
 
                 if (classDic.ContainsKey(classID))
                 {
-                    if (classDic[classID].periodDic.ContainsKey(period))
+                    if (classDic[classID].periodDic.ContainsKey(period) && classDic[classID].periodDic[period].ContainsKey(absence)) // 已有節次 已有缺曠
+                    {
+                        classDic[classID].periodDic[period][absence] += absenceCount;
+                    }
+                    if (classDic[classID].periodDic.ContainsKey(period) && !classDic[classID].periodDic[period].ContainsKey(absence)) // 已有節次 沒有缺曠
                     {
                         classDic[classID].periodDic[period].Add(absence, absenceCount);
                     }
@@ -400,19 +404,19 @@ FROM
                 int index = 0;
                 dgvRow.Cells[index++].Value = classDic[classID].className; 
                 dgvRow.Cells[index++].Value = classDic[classID].studentCount;
-
+                dgvRow.Tag = classID;
                 foreach (string period in _PeriodList)
                 {
                     if (classDic[classID].periodDic == null)
                     {
-                        dgvRow.Cells[index++].Value = "0";
+                        dgvRow.Cells[index].Value = "";
                         //dgvRow.Cells[index++].Style.ForeColor = Color.Red;
                     }
                     if (classDic[classID].periodDic != null)
                     {
                         if (!classDic[classID].periodDic.ContainsKey(period))
                         {
-                            dgvRow.Cells[index++].Value = "0";
+                            dgvRow.Cells[index].Value = "";
                             //dgvRow.Cells[index++].Style.ForeColor = Color.Red;
                         }
                         if (classDic[classID].periodDic.ContainsKey(period))
@@ -420,14 +424,27 @@ FROM
                             int 缺曠數 = 0;
                             foreach (string absnece in classDic[classID].periodDic[period].Keys)
                             {
-                                if (absnece != "")
+                                if (absnece != "") // absenece == "" 代表實到學生
                                 {
                                     缺曠數 += classDic[classID].periodDic[period][absnece];
                                 }
                             }
-                            dgvRow.Cells[index++].Value = classDic[classID].periodDic[period][""] + "(" + 缺曠數 + ")";
+                            if (缺曠數 > 0 )
+                            {
+                                dgvRow.Cells[index].Value = classDic[classID].periodDic[period][""] + 缺曠數 + "(" + 缺曠數 + ")"; // 點名人數 : 實到 + 缺曠
+                                dgvRow.Cells[index].Style.ForeColor = Color.Red;
+                            }
+                            if (缺曠數 == 0 )
+                            {
+                                dgvRow.Cells[index].Value = classDic[classID].periodDic[period][""];
+                            }
+                            if (classDic[classID].periodDic[period][""] + 缺曠數 != int.Parse(classDic[classID].studentCount)) // 如果點名人數 與 班級人數不符
+                            {
+                                dgvRow.Cells[index].Style.ForeColor = Color.Red;
+                            }
                         }
                     }
+                    index++;
                 }
                 dataGridViewX2.Rows.Add(dgvRow);
             }
@@ -447,11 +464,13 @@ FROM
             {
                 filterCbx.Visible = true;
                 labelX4.Visible = true;
+                labelX1.Visible = false;
             }
             if (periodCbx.SelectedIndex == 0)
             {
                 filterCbx.Visible = false;
                 labelX4.Visible = false;
+                labelX1.Visible = true;
             }
             ReloadDataGridViewX1();
         }
@@ -484,6 +503,15 @@ FROM
                 dataGridViewX2.Visible = false;
             }
         }
+        private void dataGridViewX2_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex > 1)
+            {
+                string classID = "" + dataGridViewX2.Rows[e.RowIndex].Tag;
+                string period = "" + dataGridViewX2.Columns[e.ColumnIndex].HeaderText;
+                (new ClassRollCall(classID, period, dateTimeInput1.Value)).ShowDialog();
+            }
+        }
     }
 }
 
@@ -492,6 +520,7 @@ class RollCallTotalView
     public string classID { get; set; }
     public string className { get; set; }
     public string studentCount { get; set; }
+    //public Dictionary<string, Dictionary<string, Dictionary<string, int>>> teacherDic { get; set; }
     public Dictionary<string, Dictionary<string, int>> periodDic { get; set; }
     public Dictionary<string, int> absenceDic { get; set; }
 

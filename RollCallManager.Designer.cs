@@ -45,6 +45,7 @@
             this.dataGridViewX2 = new DevComponents.DotNetBar.Controls.DataGridViewX();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.labelX1 = new DevComponents.DotNetBar.LabelX();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewX1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateTimeInput1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewX2)).BeginInit();
@@ -97,7 +98,7 @@
             this.dataGridViewX1.RowHeadersVisible = false;
             this.dataGridViewX1.RowTemplate.Height = 24;
             this.dataGridViewX1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewX1.Size = new System.Drawing.Size(681, 368);
+            this.dataGridViewX1.Size = new System.Drawing.Size(681, 382);
             this.dataGridViewX1.TabIndex = 6;
             this.dataGridViewX1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewX1_CellDoubleClick);
             // 
@@ -164,7 +165,7 @@
             this.leaveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.leaveBtn.BackColor = System.Drawing.Color.Transparent;
             this.leaveBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.leaveBtn.Location = new System.Drawing.Point(618, 415);
+            this.leaveBtn.Location = new System.Drawing.Point(618, 429);
             this.leaveBtn.Name = "leaveBtn";
             this.leaveBtn.Size = new System.Drawing.Size(75, 23);
             this.leaveBtn.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -178,7 +179,7 @@
             this.saveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.saveBtn.BackColor = System.Drawing.Color.Transparent;
             this.saveBtn.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.saveBtn.Location = new System.Drawing.Point(515, 415);
+            this.saveBtn.Location = new System.Drawing.Point(515, 429);
             this.saveBtn.Name = "saveBtn";
             this.saveBtn.Size = new System.Drawing.Size(97, 23);
             this.saveBtn.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -296,8 +297,9 @@
             this.dataGridViewX2.ReadOnly = true;
             this.dataGridViewX2.RowHeadersVisible = false;
             this.dataGridViewX2.RowTemplate.Height = 24;
-            this.dataGridViewX2.Size = new System.Drawing.Size(681, 368);
+            this.dataGridViewX2.Size = new System.Drawing.Size(681, 382);
             this.dataGridViewX2.TabIndex = 15;
+            this.dataGridViewX2.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewX2_CellContentDoubleClick);
             // 
             // Column1
             // 
@@ -315,11 +317,28 @@
             this.Column2.ReadOnly = true;
             this.Column2.Width = 59;
             // 
+            // labelX1
+            // 
+            this.labelX1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelX1.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.labelX1.BackgroundStyle.Class = "";
+            this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.labelX1.ForeColor = System.Drawing.Color.Blue;
+            this.labelX1.Location = new System.Drawing.Point(12, 429);
+            this.labelX1.Name = "labelX1";
+            this.labelX1.Size = new System.Drawing.Size(467, 23);
+            this.labelX1.TabIndex = 16;
+            this.labelX1.Text = "欄位數值代表老師已點學生人數，(數值)代表老師已點缺曠人數。";
+            // 
             // RollCallManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(705, 450);
+            this.ClientSize = new System.Drawing.Size(705, 464);
+            this.Controls.Add(this.labelX1);
             this.Controls.Add(this.dataGridViewX2);
             this.Controls.Add(this.dateTimeInput1);
             this.Controls.Add(this.periodCbx);
@@ -357,5 +376,6 @@
         private DevComponents.DotNetBar.Controls.DataGridViewX dataGridViewX2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private DevComponents.DotNetBar.LabelX labelX1;
     }
 }
