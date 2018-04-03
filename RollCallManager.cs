@@ -271,6 +271,7 @@ ORDER BY
 
         public void ReloadDataGridViewX2()
         {
+            dataGridViewX2.Rows.Clear();
             #region SQL
             string sql = string.Format(@"
 
@@ -483,6 +484,7 @@ FROM
         private void dateTimeInput1_TextChanged(object sender, EventArgs e)
         {
             ReloadDataGridViewX1();
+            ReloadDataGridViewX2();
         }
 
         private void leaveBtn_Click(object sender, EventArgs e)
@@ -503,7 +505,7 @@ FROM
                 dataGridViewX2.Visible = false;
             }
         }
-        private void dataGridViewX2_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridViewX2_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex > 1)
             {

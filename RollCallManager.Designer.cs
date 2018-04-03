@@ -299,7 +299,7 @@
             this.dataGridViewX2.RowTemplate.Height = 24;
             this.dataGridViewX2.Size = new System.Drawing.Size(681, 382);
             this.dataGridViewX2.TabIndex = 15;
-            this.dataGridViewX2.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewX2_CellContentDoubleClick);
+            this.dataGridViewX2.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewX2_CellDoubleClick);
             // 
             // Column1
             // 
